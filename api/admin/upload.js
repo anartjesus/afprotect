@@ -22,7 +22,9 @@ export default async function handler(request, response) {
     });
     const result = await uploadResponse.json();
     if (!uploadResponse.ok) throw new Error(result.message || "Não foi possível carregar a imagem.");
-    return response.status(200).json({ ok: true, path: `/images/uploads/${filename}` });
+    const { repo } = githubConfig();
+    const publicUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${path}?v=${Date.now()}`;
+    return response.status(200).json({ ok: true, path: publicUrl });
   } catch (error) {
     console.error("Admin upload error:", error.message);
     return response.status(500).json({ error: error.message });

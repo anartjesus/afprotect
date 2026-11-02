@@ -79,7 +79,7 @@ export default function AdminApp() {
       const response = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content }) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Não foi possível guardar.");
-      setStatus("saved"); setMessage("Alterações guardadas. A publicação na Vercel deverá começar automaticamente.");
+      setStatus("saved"); setMessage("Alterações guardadas. Poderão demorar até cerca de 30 segundos a aparecer no site.");
       window.setTimeout(() => setStatus("idle"), 2500);
     } catch (error) { setStatus("idle"); setMessage(error.message); }
   };

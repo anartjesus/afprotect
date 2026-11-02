@@ -17,7 +17,7 @@ Copiar as variáveis de `.env.example` para **Project Settings → Environment V
 - `GITHUB_BRANCH`: `main`;
 - `GITHUB_TOKEN`: token fine-grained limitado a este repositório, com permissão **Contents: Read and write**.
 
-Depois de adicionar as variáveis, fazer um novo deploy. O formulário envia os pedidos para o endereço configurado. Ao guardar no backoffice, é criado um commit em `public/content.json`; a ligação GitHub–Vercel publica a alteração automaticamente.
+Depois de adicionar as variáveis, fazer um novo deploy. O formulário envia os pedidos para o endereço configurado. Ao guardar no backoffice, é criado um commit em `public/content.json` e o site passa a ler esse conteúdo através da API, sem depender de um novo deployment. A atualização pode demorar cerca de 30 segundos devido à cache.
 
 ### Segurança
 

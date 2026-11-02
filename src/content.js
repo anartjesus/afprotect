@@ -5,13 +5,19 @@ export function useSiteContent() {
 
   useEffect(() => {
     let active = true;
-    fetch("/content.json", { cache: "no-store" })
+    fetch("/api/content", { cache: "no-store" })
       .then((response) => {
         if (!response.ok) throw new Error("Não foi possível carregar os conteúdos.");
         return response.json();
       })
       .then((data) => { if (active) setContent(data); })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        fetch("/content.json", { cache: "no-store" })
+          .then((response) => response.json())
+          .then((data) => { if (active) setContent(data); })
+          .catch((fallbackError) => console.error(fallbackError));
+      });
     return () => { active = false; };
   }, []);
 
