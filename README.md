@@ -1,5 +1,28 @@
 # React + Vite
 
+## AFPROTECT — publicação e backoffice
+
+O site inclui um formulário de contacto real e um backoffice em `/admin`.
+
+### Variáveis necessárias na Vercel
+
+Copiar as variáveis de `.env.example` para **Project Settings → Environment Variables**:
+
+- `RESEND_API_KEY`: chave da conta Resend usada para enviar os pedidos;
+- `CONTACT_TO_EMAIL`: caixa que recebe os pedidos;
+- `CONTACT_FROM_EMAIL`: remetente de um domínio verificado no Resend;
+- `ADMIN_PASSWORD`: palavra-passe longa e exclusiva do cliente;
+- `SESSION_SECRET`: valor aleatório com pelo menos 32 caracteres;
+- `GITHUB_REPO`: `anartjesus/afprotect`;
+- `GITHUB_BRANCH`: `main`;
+- `GITHUB_TOKEN`: token fine-grained limitado a este repositório, com permissão **Contents: Read and write**.
+
+Depois de adicionar as variáveis, fazer um novo deploy. O formulário envia os pedidos para o endereço configurado. Ao guardar no backoffice, é criado um commit em `public/content.json`; a ligação GitHub–Vercel publica a alteração automaticamente.
+
+### Segurança
+
+Nunca guardar as chaves reais num ficheiro `.env` versionado nem enviá-las por mensagem. A sessão do backoffice é guardada num cookie `HttpOnly`, `Secure` e `SameSite=Strict` com validade de oito horas.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:

@@ -3,6 +3,8 @@ import { ArrowUpRight, Check, ChevronDown, MapPin } from "lucide-react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductShowcase from "./components/ProductShowcase";
+import ContactForm from "./components/ContactForm";
+import { openContactForm, useSiteContent } from "./content";
 
 const services = [
   ["01", "Extintores", "Venda, instalação, manutenção e inspeção técnica.", true],
@@ -89,9 +91,6 @@ const articles = [
   },
 ];
 
-const serviceMailto = (service) =>
-  `mailto:geral.afprotect@gmail.com?subject=${encodeURIComponent(`Pedido de informação — Serviço de ${service}`)}`;
-
 function SectionLabel({ index, children, light = false }) {
   return <p className={`section-label ${light ? "section-label--light" : ""}`}><span>{index}</span><span className="section-label__text">{children}</span></p>;
 }
@@ -99,28 +98,37 @@ function SectionLabel({ index, children, light = false }) {
 function App() {
   const [openArticle, setOpenArticle] = useState(null);
   const [infoView, setInfoView] = useState("credentials");
+  const content = useSiteContent();
+  const liveServices = content?.services || services.map(([number, title, description, featured]) => ({ number, title, description, featured }));
+  const liveProducts = content?.products || products.map(([number, name, description, image]) => ({ number, name, description, image }));
+  const liveClients = content?.clients || clients;
+  const about = content?.about;
+  const contact = content?.contact || {
+    email: "geral.afprotect@gmail.com",
+    phones: ["223 259 768", "910 978 600"],
+    address: "Rua D. João de Castro, n.º 608, R/C\n4510-546 Fânzeres, Gondomar",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Rua+D.+Jo%C3%A3o+de+Castro+608+4510-546+F%C3%A2nzeres+Gondomar+Portugal",
+    schedule: "Segunda a sexta-feira\n09:00–12:30 · 14:00–18:30",
+  };
 
   return (
     <>
       <Header />
       <main>
-        <Hero />
+        <Hero content={content?.hero} />
 
         <section id="empresa" className="section about wrap">
           <SectionLabel index="02">Sobre Nós</SectionLabel>
           <div className="about__grid">
-            <h2>10+ anos a proteger <em>o essencial.</em></h2>
+            <h2>{about?.title || "10+ anos a proteger"} <em>{about?.highlight || "o essencial."}</em></h2>
             <div className="about__copy">
-              <p className="lead">A segurança constrói-se com conhecimento, rigor e presença.</p>
-              <p>Fundada em 2015, a AFPROTECT desenvolve soluções de proteção contra incêndios e sistemas de segurança para empresas, comércio e particulares.</p>
-              <p>Da instalação à manutenção, acompanhamos cada espaço com uma abordagem técnica, próxima e responsável.</p>
+              <p className="lead">{about?.lead || "A segurança constrói-se com conhecimento, rigor e presença."}</p>
+              {(about?.paragraphs || ["Fundada em 2015, a AFPROTECT desenvolve soluções de proteção contra incêndios e sistemas de segurança para empresas, comércio e particulares.", "Da instalação à manutenção, acompanhamos cada espaço com uma abordagem técnica, próxima e responsável."]).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
               <a className="text-link" href="#contactos">Conhecer a nossa abordagem <ArrowUpRight /></a>
             </div>
           </div>
           <div className="about__facts">
-            <div><strong>2015</strong><span>Ano de fundação</span></div>
-            <div><strong>Porto</strong><span>Sede em Fânzeres, Gondomar</span></div>
-            <div><strong>3 áreas</strong><span>Instalação, manutenção e assistência</span></div>
+            {(about?.facts || [{ value: "2015", label: "Ano de fundação" }, { value: "Porto", label: "Sede em Fânzeres, Gondomar" }, { value: "3 áreas", label: "Instalação, manutenção e assistência" }]).map((fact) => <div key={fact.value}><strong>{fact.value}</strong><span>{fact.label}</span></div>)}
           </div>
         </section>
 
@@ -132,10 +140,10 @@ function App() {
               <p>Soluções técnicas pensadas para reduzir o risco, proteger pessoas e assegurar a continuidade de cada espaço.</p>
             </div>
             <div className="service-list">
-              {services.map(([number, title, description, featured]) => (
-                <a href={serviceMailto(title)} className={`service ${featured ? "service--featured" : ""}`} aria-label={`Pedir informação sobre ${title}`} key={number}>
+              {liveServices.map(({ number, title, description, featured }) => (
+                <button type="button" onClick={() => openContactForm(`Pedido de informação — Serviço de ${title}`)} className={`service ${featured ? "service--featured" : ""}`} aria-label={`Pedir informação sobre ${title}`} key={number}>
                   <span>{number}</span>{featured && <small>Em destaque</small>}<h3>{title}</h3><p>{description}</p><span className="service__action">Pedir informação</span><ArrowUpRight aria-hidden="true" />
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -150,7 +158,7 @@ function App() {
               <span>primeira intervenção. Consulte-nos para encontrar a solução indicada.</span>
             </p>
           </div>
-          <ProductShowcase products={products} />
+          <ProductShowcase products={liveProducts} />
         </section>
 
         <div id="certificacoes" className="info-hub">
@@ -229,7 +237,7 @@ function App() {
               <p>Algumas das empresas que confiam na AFPROTECT.</p>
             </div>
             <div className="clients__grid" aria-label="Clientes AFPROTECT">
-              {clients.map((client, index) => (
+              {liveClients.map((client, index) => (
                 <div className="client" key={client.name}>
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <div className="client__brand">
@@ -257,15 +265,16 @@ function App() {
           <div className="wrap">
             <SectionLabel index="08" light>Contactos</SectionLabel>
             <h2>Vamos proteger <em>o seu espaço?</em></h2>
-            <a className="contact__email" href="mailto:geral.afprotect@gmail.com?subject=Pedido%20de%20or%C3%A7amento"><span>geral.afprotect@gmail.com</span><ArrowUpRight /></a>
+            <button type="button" className="contact__email" onClick={() => openContactForm("Pedido de orçamento")}><span>{contact.email}</span><ArrowUpRight /></button>
             <div className="contact__grid">
-              <div><span>Telefone</span><a href="tel:+351223259768">223 259 768</a><a href="tel:+351910978600">910 978 600</a></div>
-              <div><span>Morada</span><a href="https://www.google.com/maps/search/?api=1&query=Rua+D.+Jo%C3%A3o+de+Castro+608+4510-546+F%C3%A2nzeres+Gondomar+Portugal" target="_blank" rel="noreferrer"><MapPin /> Rua D. João de Castro, n.º 608, R/C<br />4510-546 Fânzeres, Gondomar</a></div>
-              <div><span>Horário</span><p>Segunda a sexta-feira<br />09:00–12:30 · 14:00–18:30</p></div>
+              <div><span>Telefone</span>{contact.phones.map((phone) => <a key={phone} href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>)}</div>
+              <div><span>Morada</span><a href={contact.mapsUrl} target="_blank" rel="noreferrer"><MapPin /> {contact.address.split("\n").map((line, index) => <span className="contact__address-line" key={line}>{index > 0 && <br />}{line}</span>)}</a></div>
+              <div><span>Horário</span><p>{contact.schedule.split("\n").map((line, index) => <span key={line}>{index > 0 && <br />}{line}</span>)}</p></div>
             </div>
           </div>
         </section>
       </main>
+      <ContactForm />
       <footer className="footer"><div className="wrap"><img src="/images/logo-afprotect.png" alt="AFPROTECT" /><p>© 2026 AFPROTECT — Sociedade Unipessoal, Lda.</p><a href="#inicio">Voltar ao início ↑</a></div></footer>
     </>
   );

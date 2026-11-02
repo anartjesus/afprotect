@@ -24,8 +24,9 @@ h2 em,h1 em { font-weight:400; color:var(--red); font-style:normal; }
 .header__nav { display:flex; justify-content:center; gap:clamp(18px,2vw,35px); }
 .header__nav a,.header__cta { font:600 11px/1 "Space Grotesk"; text-transform:uppercase; letter-spacing:.08em; }
 .header__nav a { position:relative; }
-.header__nav a:after { content:""; position:absolute; left:0; right:100%; bottom:-8px; height:1px; background:var(--red); transition:right .3s; }
-.header__nav a:hover:after { right:0; }
+.header__nav a:after { content:""; position:absolute; left:0; right:100%; bottom:-8px; height:1px; background:var(--red); }
+.header__nav a:hover:after { right:0; transition:right .3s; }
+.header__nav a.is-active:after { right:0; }
 .header__cta { justify-self:end; display:flex; gap:10px; align-items:center; }
 .header__cta svg { width:15px; transition:transform .25s; }.header__cta:hover svg { transform:translate(3px,-3px); }
 .header__toggle { display:none; background:none; border:0; cursor:pointer; }
@@ -119,6 +120,31 @@ h2 em,h1 em { font-weight:400; color:var(--red); font-style:normal; }
   .hero { grid-template-columns:5% 95%; }
   .hero h1 { max-width:76%; font-size:7.2vw; }
 }
+
+/* Formulário de pedidos e elementos convertidos em botões */
+.header__cta,.service,.contact__email,.equipment-feature>button,.equipment-accordion__panel>button,.mobile-menu>button,.hero__actions button { appearance:none; border-radius:0; cursor:pointer; color:inherit; }
+.header__cta { border:0; background:none; }
+.service { width:100%; border-width:0 0 1px; border-style:solid; border-color:#343434; background:transparent; text-align:left; font:inherit; }
+.contact__email { width:100%; border-width:0 0 1px; border-style:solid; border-color:rgba(255,255,255,.6); background:none; color:#fff; text-align:left; cursor:pointer; }
+.contact__address-line { display:inline!important; margin:0!important; color:inherit!important; font:inherit!important; text-transform:none!important; letter-spacing:normal!important; }
+.contact__grid p>span { display:inline; margin:0; color:inherit; font:inherit; text-transform:none; letter-spacing:normal; }
+.equipment-feature>button,.equipment-accordion__panel>button { border:0; border-top:1px solid var(--line); background:none; width:100%; color:inherit; text-align:left; }
+.equipment-feature>button { margin-top:32px; padding:16px 0 0; display:flex; align-items:center; justify-content:space-between; font:600 11px "Space Grotesk"; text-transform:uppercase; letter-spacing:.09em; }
+.equipment-feature>button svg,.equipment-accordion__panel>button svg { width:15px; }
+.equipment-accordion__panel>button { margin-top:18px; padding:14px 0 0; display:flex; justify-content:space-between; font:600 10px "Space Grotesk"; text-transform:uppercase; }
+.mobile-menu>button { margin-top:auto; padding:17px 0; border:0; background:none; color:var(--red); display:flex; justify-content:space-between; font:500 clamp(1.8rem,7vw,3rem) "Space Grotesk"; }
+.hero__actions button { font:inherit; }
+
+.contact-modal { position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:24px; background:rgba(9,10,11,.78); backdrop-filter:blur(6px); }
+.contact-modal__dialog { position:relative; width:min(100%,760px); max-height:calc(100svh - 48px); overflow:auto; background:#f3f3ef; color:var(--ink); padding:clamp(32px,5vw,64px); box-shadow:0 30px 90px rgba(0,0,0,.35); outline:none; }
+.contact-modal__close { position:absolute; top:18px; right:18px; width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--line); background:transparent; cursor:pointer; }
+.contact-modal__close svg { width:19px; }
+.contact-modal__eyebrow { max-width:85%; margin:0 0 24px; color:var(--red); font:600 10px "Space Grotesk"; text-transform:uppercase; letter-spacing:.14em; }
+.contact-modal h2 { margin:0 0 40px; font:600 clamp(2.8rem,7vw,5.5rem)/.9 "Space Grotesk"; letter-spacing:-.07em; }.contact-modal h2 em { color:var(--red); font-style:normal; }
+.contact-modal form { display:grid; gap:20px; }.contact-modal label { display:grid; gap:8px; font:600 10px "Space Grotesk"; text-transform:uppercase; letter-spacing:.1em; }.contact-modal input,.contact-modal textarea { width:100%; border:0; border-bottom:1px solid #aaa; background:transparent; padding:12px 0; color:var(--ink); font:400 16px/1.5 Arial,sans-serif; text-transform:none; letter-spacing:normal; outline:none; }.contact-modal input:focus,.contact-modal textarea:focus { border-color:var(--red); }.contact-modal textarea { resize:vertical; }
+.contact-modal__row { display:grid; grid-template-columns:1fr 1fr; gap:28px; }.contact-modal form>.button { justify-self:start; border:0; padding:18px 24px; font:600 11px "Space Grotesk"; cursor:pointer; }.contact-modal form>.button:disabled { opacity:.65; cursor:wait; }.contact-modal form small { color:#777; line-height:1.5; }.contact-modal__honeypot { position:absolute!important; left:-10000px; }.contact-modal__error { margin:0; color:#a31c27; font-size:13px; }
+.contact-modal__success { min-height:440px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; }.contact-modal__success>svg { width:48px; height:48px; padding:12px; margin-bottom:28px; border-radius:50%; background:var(--red); color:#fff; }.contact-modal__success p { margin:0 0 14px; color:var(--red); text-transform:uppercase; letter-spacing:.15em; font:600 10px "Space Grotesk"; }.contact-modal__success h2 { margin-bottom:20px; }.contact-modal__success span { color:#666; margin-bottom:30px; }
+@media(max-width:640px){.contact-modal{padding:0;align-items:end}.contact-modal__dialog{max-height:92svh;padding:44px 22px 30px}.contact-modal__row{grid-template-columns:1fr}.contact-modal h2{margin-bottom:30px}.contact-modal form>.button{width:100%;justify-content:space-between}.contact-modal__success{min-height:65svh}}
 
 @media (max-width:1000px) {
   .hero { min-height:100svh; }

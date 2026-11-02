@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-
-const productMailto = (product) =>
-  `mailto:geral.afprotect@gmail.com?subject=${encodeURIComponent(`Pedido de informação — ${product}`)}`;
+import { openContactForm } from "../content";
 
 function ProductListItem({ product, active, onSelect }) {
-  const [number, name, description] = product;
+  const { number, name, description } = product;
 
   return (
     <li className={`equipment-list__item ${active ? "is-active" : ""}`}>
@@ -28,7 +26,7 @@ function ProductListItem({ product, active, onSelect }) {
 }
 
 function MobileProductItem({ product, index, open, onToggle }) {
-  const [number, name, description, image] = product;
+  const { number, name, description, image } = product;
   const panelId = `equipment-panel-${index}`;
 
   return (
@@ -49,7 +47,7 @@ function MobileProductItem({ product, index, open, onToggle }) {
           <img src={image} alt={name} loading="lazy" />
         </div>
         <p>{description}</p>
-        <a href={productMailto(name)}>Pedir informação <ArrowUpRight aria-hidden="true" /></a>
+        <button type="button" onClick={() => openContactForm(`Pedido de informação — ${name}`)}>Pedir informação <ArrowUpRight aria-hidden="true" /></button>
       </div>
     </article>
   );
@@ -59,7 +57,7 @@ export default function ProductShowcase({ products }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openIndex, setOpenIndex] = useState(0);
   const activeProduct = products[activeIndex];
-  const [number, name, description, image] = activeProduct;
+  const { number, name, description, image } = activeProduct;
 
   return (
     <>
@@ -67,7 +65,7 @@ export default function ProductShowcase({ products }) {
         <ol className="equipment-list equipment-list--left">
           {products.slice(0, 5).map((product, index) => (
             <ProductListItem
-              key={product[0]}
+              key={product.number}
               product={product}
               active={activeIndex === index}
               onSelect={() => setActiveIndex(index)}
@@ -82,7 +80,7 @@ export default function ProductShowcase({ products }) {
           <div className="equipment-feature__meta"><span>{number}</span><span>Equipamentos</span></div>
           <h3>{name}</h3>
           <p>{description}</p>
-          <a href={productMailto(name)}>Pedir informação <ArrowUpRight aria-hidden="true" /></a>
+          <button type="button" onClick={() => openContactForm(`Pedido de informação — ${name}`)}>Pedir informação <ArrowUpRight aria-hidden="true" /></button>
         </div>
 
         <ol className="equipment-list equipment-list--right" start="6">
@@ -90,7 +88,7 @@ export default function ProductShowcase({ products }) {
             const productIndex = index + 5;
             return (
               <ProductListItem
-                key={product[0]}
+                key={product.number}
                 product={product}
                 active={activeIndex === productIndex}
                 onSelect={() => setActiveIndex(productIndex)}
@@ -103,7 +101,7 @@ export default function ProductShowcase({ products }) {
       <div className="equipment-accordion">
         {products.map((product, index) => (
           <MobileProductItem
-            key={product[0]}
+            key={product.number}
             product={product}
             index={index}
             open={openIndex === index}
