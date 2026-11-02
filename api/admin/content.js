@@ -19,11 +19,21 @@ export default async function handler(request, response) {
 
     const content = request.body?.content;
     if (!content || typeof content !== "object") return response.status(400).json({ error: "Conteúdo inválido." });
+    const currentContent = JSON.parse(Buffer.from(current.content, "base64").toString("utf8"));
+    const safeContent = {
+      ...currentContent,
+      clients: Array.isArray(content.clients) ? content.clients : currentContent.clients,
+      contact: content.contact && typeof content.contact === "object" ? content.contact : currentContent.contact,
+      products: currentContent.products.map((product, index) => ({
+        ...product,
+        image: content.products?.[index]?.image || product.image,
+      })),
+    };
     const saveResponse = await githubRequest(`/contents/${CONTENT_PATH}`, {
       method: "PUT",
       body: JSON.stringify({
         message: "Atualizar conteúdos através do backoffice",
-        content: Buffer.from(`${JSON.stringify(content, null, 2)}\n`).toString("base64"),
+        content: Buffer.from(`${JSON.stringify(safeContent, null, 2)}\n`).toString("base64"),
         sha: current.sha,
         branch,
       }),

@@ -3,8 +3,7 @@ import { Check, LogOut, Save, Upload } from "lucide-react";
 import "./admin.css";
 
 const sections = [
-  ["hero", "Hero"], ["about", "Sobre nós"], ["services", "Serviços"],
-  ["products", "Equipamentos"], ["clients", "Clientes"], ["contact", "Contactos"],
+  ["clients", "Clientes"], ["products", "Imagens dos equipamentos"], ["contact", "Contactos"],
 ];
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -27,7 +26,7 @@ export default function AdminApp() {
   const [authenticated, setAuthenticated] = useState(null);
   const [password, setPassword] = useState("");
   const [content, setContent] = useState(null);
-  const [active, setActive] = useState("hero");
+  const [active, setActive] = useState("clients");
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
 
@@ -95,13 +94,7 @@ export default function AdminApp() {
       <div className="admin-title"><div><small>Editar conteúdos</small><h1>{sections.find(([id]) => id === active)?.[1]}</h1></div><button className="admin-save" type="button" onClick={save} disabled={status === "saving" || status === "uploading"}>{status === "saved" ? <><Check /> Guardado</> : <><Save /> {status === "saving" ? "A guardar…" : "Guardar alterações"}</>}</button></div>
       {message && <div className={`admin-message ${message.startsWith("Alterações") || message.startsWith("Imagem") ? "" : "admin-message--error"}`}>{message}</div>}
 
-      {active === "hero" && <section className="admin-panel"><Field label="Texto superior" value={content.hero.eyebrow} onChange={(value) => changeObject("hero", "eyebrow", value)} /><Field label="Título" value={content.hero.title} onChange={(value) => changeObject("hero", "title", value)} /><Field label="Destaque a vermelho" value={content.hero.highlight} onChange={(value) => changeObject("hero", "highlight", value)} /><Field label="Descrição" multiline value={content.hero.description} onChange={(value) => changeObject("hero", "description", value)} /><ImageField label="Imagem desktop" value={content.hero.desktopImage} onChange={(value) => changeObject("hero", "desktopImage", value)} upload={upload} /><ImageField label="Imagem mobile" value={content.hero.mobileImage} onChange={(value) => changeObject("hero", "mobileImage", value)} upload={upload} /><Field label="Legenda da imagem" value={content.hero.caption} onChange={(value) => changeObject("hero", "caption", value)} /></section>}
-
-      {active === "about" && <section className="admin-panel"><Field label="Título" value={content.about.title} onChange={(value) => changeObject("about", "title", value)} /><Field label="Destaque a vermelho" value={content.about.highlight} onChange={(value) => changeObject("about", "highlight", value)} /><Field label="Frase de abertura" multiline value={content.about.lead} onChange={(value) => changeObject("about", "lead", value)} />{content.about.paragraphs.map((paragraph, index) => <Field key={index} label={`Parágrafo ${index + 1}`} multiline value={paragraph} onChange={(value) => { const paragraphs = [...content.about.paragraphs]; paragraphs[index] = value; changeObject("about", "paragraphs", paragraphs); }} />)}<h2>Dados em destaque</h2>{content.about.facts.map((fact, index) => <div className="admin-row" key={index}><Field label="Valor" value={fact.value} onChange={(value) => { const facts = clone(content.about.facts); facts[index].value = value; changeObject("about", "facts", facts); }} /><Field label="Descrição" value={fact.label} onChange={(value) => { const facts = clone(content.about.facts); facts[index].label = value; changeObject("about", "facts", facts); }} /></div>)}</section>}
-
-      {active === "services" && <section className="admin-list">{content.services.map((item, index) => <article key={index}><div className="admin-item-title"><span>{item.number}</span><h2>{item.title}</h2></div><div className="admin-row"><Field label="Nome" value={item.title} onChange={(value) => changeListItem("services", index, "title", value)} /><Field label="Descrição" value={item.description} onChange={(value) => changeListItem("services", index, "description", value)} /></div><label className="admin-check"><input type="checkbox" checked={item.featured} onChange={(event) => changeListItem("services", index, "featured", event.target.checked)} /> Mostrar como serviço em destaque</label></article>)}</section>}
-
-      {active === "products" && <section className="admin-list">{content.products.map((item, index) => <article key={index}><div className="admin-item-title"><span>{item.number}</span><h2>{item.name}</h2></div><div className="admin-row"><Field label="Nome" value={item.name} onChange={(value) => changeListItem("products", index, "name", value)} /><Field label="Descrição" value={item.description} onChange={(value) => changeListItem("products", index, "description", value)} /></div><ImageField label="Imagem" value={item.image} onChange={(value) => changeListItem("products", index, "image", value)} upload={upload} /></article>)}</section>}
+      {active === "products" && <section className="admin-list">{content.products.map((item, index) => <article key={index}><div className="admin-item-title"><span>{item.number}</span><h2>{item.name}</h2></div><p className="admin-item-help">Apenas a imagem deste equipamento pode ser substituída.</p><ImageField label="Imagem" value={item.image} onChange={(value) => changeListItem("products", index, "image", value)} upload={upload} /></article>)}</section>}
 
       {active === "clients" && <section className="admin-list admin-list--clients">{content.clients.map((item, index) => <article key={index}><div className="admin-item-title"><span>{String(index + 1).padStart(2, "0")}</span><h2>{item.name}</h2></div><Field label="Nome" value={item.name} onChange={(value) => changeListItem("clients", index, "name", value)} /><ImageField label="Logótipo" value={item.logo} onChange={(value) => changeListItem("clients", index, "logo", value)} upload={upload} /></article>)}</section>}
 
