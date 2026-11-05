@@ -18,7 +18,7 @@ export default function Hero({ content }) {
       </div>
       <figure className="hero__image">
         <picture>
-          <source media="(max-width: 640px)" srcSet={content?.mobileImage || "/images/hero-montra-carrinha-wide.png"} />
+          <source media="(max-width: 640px)" srcSet={content?.mobileImage || "/images/hero-mobile-por-do-sol.png"} />
           <img src={content?.desktopImage || "/images/hero-montra-carrinha-wide.png"} alt="Instalações e viatura de assistência técnica da AFPROTECT" />
         </picture>
         <figcaption>{content?.caption || "Manutenção técnica / AFPROTECT"}</figcaption>

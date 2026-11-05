@@ -197,3 +197,30 @@
     background:linear-gradient(90deg,rgba(5,7,10,.7),rgba(5,7,10,.2) 75%,transparent),linear-gradient(180deg,rgba(5,7,10,.88),rgba(5,7,10,.6) 40%,rgba(5,7,10,.08) 80%);
   }
 }
+
+/* Show the complete portrait on phones, without the desktop zoom or crop. */
+@media (max-width:640px) {
+  .site-shell .hero { height:auto; min-height:0; display:block; padding-top:64px; }
+  .site-shell .hero__image {
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:auto;
+    min-height:0;
+    aspect-ratio:941 / 1672;
+  }
+  .site-shell .hero__content {
+    position:absolute;
+    top:64px;
+    left:16px;
+    width:calc(100% - 32px);
+    height:auto;
+    margin:0;
+    padding:30px 0;
+  }
+  .site-shell .hero .hero__image img { object-fit:contain; object-position:center; transform:none; }
+  .site-shell .hero__image::after {
+    background:linear-gradient(180deg,rgba(5,7,10,.48),rgba(5,7,10,.28) 32%,transparent 58%);
+  }
+  .site-shell .hero__image figcaption { display:none; }
+}
