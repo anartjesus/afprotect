@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+let contactEmail = "geral.afprotect@gmail.com";
+
 export function useSiteContent() {
   const [content, setContent] = useState(null);
 
@@ -10,12 +12,12 @@ export function useSiteContent() {
         if (!response.ok) throw new Error("Não foi possível carregar os conteúdos.");
         return response.json();
       })
-      .then((data) => { if (active) setContent(data); })
+      .then((data) => { if (active) { contactEmail = data.contact?.email || contactEmail; setContent(data); } })
       .catch((error) => {
         console.error(error);
         fetch("/content.json", { cache: "no-store" })
           .then((response) => response.json())
-          .then((data) => { if (active) setContent(data); })
+          .then((data) => { if (active) { contactEmail = data.contact?.email || contactEmail; setContent(data); } })
           .catch((fallbackError) => console.error(fallbackError));
       });
     return () => { active = false; };
@@ -24,6 +26,6 @@ export function useSiteContent() {
   return content;
 }
 
-export function openContactForm(context = "Pedido de orçamento") {
-  window.dispatchEvent(new CustomEvent("afprotect:contact", { detail: { context } }));
+export function openContactEmail(context = "Pedido de orçamento") {
+  window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(context)}`;
 }

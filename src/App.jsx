@@ -1,10 +1,10 @@
 import { useState } from "react";
+import "./clean.css";
 import { ArrowUpRight, Check, ChevronDown, MapPin } from "lucide-react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductShowcase from "./components/ProductShowcase";
-import ContactForm from "./components/ContactForm";
-import { openContactForm, useSiteContent } from "./content";
+import { openContactEmail, useSiteContent } from "./content";
 
 const services = [
   ["01", "Extintores", "Venda, instalação, manutenção e inspeção técnica.", true],
@@ -112,7 +112,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="site-shell">
       <Header />
       <main>
         <Hero content={content?.hero} />
@@ -141,7 +141,7 @@ function App() {
             </div>
             <div className="service-list">
               {liveServices.map(({ number, title, description, featured }) => (
-                <button type="button" onClick={() => openContactForm(`Pedido de informação — Serviço de ${title}`)} className={`service ${featured ? "service--featured" : ""}`} aria-label={`Pedir informação sobre ${title}`} key={number}>
+                <button type="button" onClick={() => openContactEmail(`Pedido de informação — Serviço de ${title}`)} className={`service ${featured ? "service--featured" : ""}`} aria-label={`Pedir informação sobre ${title}`} key={number}>
                   <span>{number}</span>{featured && <small>Em destaque</small>}<h3>{title}</h3><p>{description}</p><span className="service__action">Pedir informação</span><ArrowUpRight aria-hidden="true" />
                 </button>
               ))}
@@ -265,18 +265,18 @@ function App() {
           <div className="wrap">
             <SectionLabel index="08" light>Contactos</SectionLabel>
             <h2>Vamos proteger <em>o seu espaço?</em></h2>
-            <button type="button" className="contact__email" onClick={() => openContactForm("Pedido de orçamento")}><span>{contact.email}</span><ArrowUpRight /></button>
+            <a className="contact__email" href={`mailto:${contact.email}`}><span>{contact.email}</span><ArrowUpRight aria-hidden="true" /></a>
             <div className="contact__grid">
               <div><span>Telefone</span>{contact.phones.map((phone) => <a key={phone} href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>)}</div>
               <div><span>Morada</span><a href={contact.mapsUrl} target="_blank" rel="noreferrer"><MapPin /> {contact.address.split("\n").map((line, index) => <span className="contact__address-line" key={line}>{index > 0 && <br />}{line}</span>)}</a></div>
               <div><span>Horário</span><p>{contact.schedule.split("\n").map((line, index) => <span key={line}>{index > 0 && <br />}{line}</span>)}</p></div>
             </div>
+            <a className="contact__facebook" href="https://www.facebook.com/afprotect/" target="_blank" rel="noopener noreferrer">Siga-nos no Facebook <ArrowUpRight aria-hidden="true" /></a>
           </div>
         </section>
       </main>
-      <ContactForm />
       <footer className="footer"><div className="wrap"><img src="/images/logo-afprotect.png" alt="AFPROTECT" /><p>© 2026 AFPROTECT — Sociedade Unipessoal, Lda.</p><a href="#inicio">Voltar ao início ↑</a></div></footer>
-    </>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { openContactForm } from "../content";
+import { openContactEmail } from "../content";
 
 function ProductListItem({ product, active, onSelect }) {
   const { number, name, description } = product;
@@ -47,7 +47,7 @@ function MobileProductItem({ product, index, open, onToggle }) {
           <img src={image} alt={name} loading="lazy" />
         </div>
         <p>{description}</p>
-        <button type="button" onClick={() => openContactForm(`Pedido de informação — ${name}`)}>Pedir informação <ArrowUpRight aria-hidden="true" /></button>
+        <button type="button" onClick={() => openContactEmail(`Pedido de informação — ${name}`)}>Pedir informação <ArrowUpRight aria-hidden="true" /></button>
       </div>
     </article>
   );
@@ -80,7 +80,7 @@ export default function ProductShowcase({ products }) {
           <div className="equipment-feature__meta"><span>{number}</span><span>Equipamentos</span></div>
           <h3>{name}</h3>
           <p>{description}</p>
-          <button type="button" onClick={() => openContactForm(`Pedido de informação — ${name}`)}>Pedir informação <ArrowUpRight aria-hidden="true" /></button>
+          <button type="button" onClick={() => openContactEmail(`Pedido de informação — ${name}`)}>Pedir informação <ArrowUpRight aria-hidden="true" /></button>
         </div>
 
         <ol className="equipment-list equipment-list--right" start="6">

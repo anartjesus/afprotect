@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { openContactForm } from "../content";
+import { openContactEmail } from "../content";
 
 export default function Hero({ content }) {
   return (
@@ -11,15 +11,15 @@ export default function Hero({ content }) {
         <div className="hero__bottom">
           <p>{content?.description || "Extintores, alarmes e câmaras de videovigilância, com instalação, manutenção e acompanhamento técnico desde 2015."}</p>
           <div className="hero__actions">
-            <button className="button button--primary" type="button" onClick={() => openContactForm("Pedido de orçamento")}>Pedir orçamento <ArrowUpRight /></button>
+            <button className="button button--primary" type="button" onClick={() => openContactEmail("Pedido de orçamento")}>Pedir orçamento <ArrowUpRight /></button>
             <a className="button button--secondary" href="#servicos">Conhecer serviços</a>
           </div>
         </div>
       </div>
       <figure className="hero__image">
         <picture>
-          <source media="(max-width: 640px)" srcSet={content?.mobileImage || "/images/heromobile-afprotect.jpg"} />
-          <img src={content?.desktopImage || "/images/hero-afprotect.jpg"} alt="Instalações e viatura de assistência técnica da AFPROTECT" />
+          <source media="(max-width: 640px)" srcSet={content?.mobileImage || "/images/hero-montra-carrinha-wide.png"} />
+          <img src={content?.desktopImage || "/images/hero-montra-carrinha-wide.png"} alt="Instalações e viatura de assistência técnica da AFPROTECT" />
         </picture>
         <figcaption>{content?.caption || "Manutenção técnica / AFPROTECT"}</figcaption>
       </figure>
