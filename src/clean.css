@@ -23,7 +23,7 @@
 .site-shell .section-intro--light p { color:var(--muted); }
 .site-shell .service-list { grid-template-columns:repeat(3,minmax(0,1fr)); border:0; background:none; gap:0 36px; }
 .site-shell .service { min-height:190px; padding:25px 0; border-top:1px solid #d2d5cd; background:transparent; gap:12px; transition:color .2s; }
-.site-shell .service::before,.site-shell .service > small,.site-shell .service > span:first-child,.site-shell .service__action { display:none; }
+.site-shell .service::before,.site-shell .service > small,.site-shell .service > span:first-child { display:none; }
 .site-shell .service h3 { color:var(--ink); margin:0; font-size:21px; line-height:1.25; grid-row:1; }
 .site-shell .service p { color:#656961; align-self:start; grid-row:2; font-size:13px; line-height:1.7; }
 .site-shell .service svg { grid-row:2; color:var(--red); }
@@ -223,4 +223,26 @@
     background:linear-gradient(180deg,rgba(5,7,10,.48),rgba(5,7,10,.28) 32%,transparent 58%);
   }
   .site-shell .hero__image figcaption { display:none; }
+}
+
+/* Reserve the action row so revealing the label does not move the card. */
+.site-shell .service__action {
+  display:block;
+  grid-column:1;
+  grid-row:3;
+  align-self:end;
+  color:var(--red);
+  font-size:10px;
+  opacity:0;
+  transform:translateY(4px);
+  transition:opacity .2s ease,transform .2s ease;
+}
+.site-shell .service:hover .service__action,
+.site-shell .service:focus-visible .service__action {
+  color:var(--red);
+  opacity:1;
+  transform:none;
+}
+@media (hover:none) {
+  .site-shell .service__action { opacity:1; transform:none; }
 }
