@@ -271,7 +271,10 @@ function App() {
               <div><span>Morada</span><a href={contact.mapsUrl} target="_blank" rel="noreferrer"><MapPin /> {contact.address.split("\n").map((line, index) => <span className="contact__address-line" key={line}>{index > 0 && <br />}{line}</span>)}</a></div>
               <div><span>Horário</span><p>{contact.schedule.split("\n").map((line, index) => <span key={line}>{index > 0 && <br />}{line}</span>)}</p></div>
             </div>
-            <a className="contact__facebook" href="https://www.facebook.com/afprotect/" target="_blank" rel="noopener noreferrer">Siga-nos no Facebook <ArrowUpRight aria-hidden="true" /></a>
+            <div className="contact__socials">
+              <a className="contact__facebook" href="https://www.facebook.com/afprotect/" target="_blank" rel="noopener noreferrer">Siga-nos no Facebook <ArrowUpRight aria-hidden="true" /></a>
+              <a className="contact__facebook" href="https://www.instagram.com/afprotect_lda/" target="_blank" rel="noopener noreferrer">Siga-nos no Instagram <ArrowUpRight aria-hidden="true" /></a>
+            </div>
           </div>
         </section>
       </main>

@@ -246,3 +246,11 @@
 @media (hover:none) {
   .site-shell .service__action { opacity:1; transform:none; }
 }
+
+.site-shell .contact__socials {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 28px;
+  margin-top:32px;
+}
+.site-shell .contact__socials .contact__facebook { margin-top:0; }
